@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
   },
   primary: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.secondary,
   },
   secondary: {
     backgroundColor: Colors.surfaceLight,

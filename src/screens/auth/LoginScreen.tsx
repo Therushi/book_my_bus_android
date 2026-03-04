@@ -66,7 +66,7 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
           <View style={styles.content}>
             <View style={styles.card}>
               <View style={styles.formIconContainer}>
-                <Icon name="account-circle-outline" size={40} color={Colors.primary} />
+                <Icon name="account-circle-outline" size={40} color={Colors.secondary} />
               </View>
               
               <View style={styles.form}>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     fontSize: Fonts.sizes.md,
   },
   signupLink: {
-    color: Colors.primary,
+    color: Colors.secondary,
     fontSize: Fonts.sizes.md,
     fontWeight: Fonts.weights.semiBold,
   },

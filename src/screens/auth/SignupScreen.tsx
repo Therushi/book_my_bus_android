@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: Radii.md,
   },
   roleSegmentActive: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.secondary,
   },
   roleSegmentText: {
     color: Colors.textSecondary,
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     fontSize: Fonts.sizes.md,
   },
   loginLink: {
-    color: Colors.primary,
+    color: Colors.secondary,
     fontSize: Fonts.sizes.md,
     fontWeight: Fonts.weights.semiBold,
   },
