@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,22 +9,22 @@ import {
   Alert,
   StatusBar,
 } from 'react-native';
-import {Colors, Fonts, Spacing, Radii, Shadows} from '@/theme/theme';
+import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
 import FormInput from '@/components/FormInput';
 import AppButton from '@/components/AppButton';
-import {useAuth} from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import type {RootStackParamList} from '@/models/types';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/models/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen: React.FC<Props> = ({navigation}) => {
-  const {login} = useAuth();
+const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email.trim() || !password) {
@@ -41,17 +41,18 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <View style={styles.flex}>
-      <StatusBar backgroundColor={Colors.secondary} barStyle="light-content" />
+      <StatusBar backgroundColor={Colors.primary} barStyle="light-content" />
 
       <KeyboardAvoidingView
         style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
         <ScrollView
           style={styles.container}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
-          bounces={false}>
-          
+          bounces={false}
+        >
           {/* Red Banner Header (Inside ScrollView to prevent clipping and allow scrolling) */}
           <View style={styles.headerBackground}>
             <View style={styles.logoRow}>
@@ -59,16 +60,22 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
               <Text style={styles.headerLogoText}>BookMyBus</Text>
             </View>
             <Text style={styles.headerTitle}>Welcome Back</Text>
-            <Text style={styles.headerSubtitle}>Sign in to manage your tickets</Text>
+            <Text style={styles.headerSubtitle}>
+              Sign in to manage your tickets
+            </Text>
           </View>
 
           {/* Overlapping Card Container */}
           <View style={styles.content}>
             <View style={styles.card}>
               <View style={styles.formIconContainer}>
-                <Icon name="account-circle-outline" size={40} color={Colors.secondary} />
+                <Icon
+                  name="account-circle-outline"
+                  size={40}
+                  color={Colors.primary}
+                />
               </View>
-              
+
               <View style={styles.form}>
                 <FormInput
                   label="Email Address"
@@ -101,7 +108,8 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
                 <Text style={styles.signupLabel}>New to BookMyBus? </Text>
                 <Text
                   style={styles.signupLink}
-                  onPress={() => navigation.navigate('Signup')}>
+                  onPress={() => navigation.navigate('Signup')}
+                >
                   Register Here
                 </Text>
               </View>
@@ -114,10 +122,10 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: Colors.background},
-  container: {flex: 1},
+  flex: { flex: 1, backgroundColor: Colors.background },
+  container: { flex: 1 },
   headerBackground: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     paddingTop: Platform.OS === 'ios' ? 60 : Spacing.xxl,
     paddingHorizontal: Spacing.xl,
     paddingBottom: 90, // Increased bottom padding to give text more room above the overlap
@@ -187,7 +195,7 @@ const styles = StyleSheet.create({
     fontSize: Fonts.sizes.md,
   },
   signupLink: {
-    color: Colors.secondary,
+    color: Colors.primary,
     fontSize: Fonts.sizes.md,
     fontWeight: Fonts.weights.semiBold,
   },

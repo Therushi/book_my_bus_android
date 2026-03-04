@@ -7,7 +7,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import {Colors, Fonts, Spacing, Radii, Shadows} from '@/theme/theme';
+import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
 
 interface Props {
   title: string;
@@ -43,9 +43,13 @@ const AppButton: React.FC<Props> = ({
       ]}
       onPress={onPress}
       disabled={isDisabled}
-      activeOpacity={0.8}>
+      activeOpacity={0.75}
+    >
       {loading ? (
-        <ActivityIndicator color={Colors.white} size="small" />
+        <ActivityIndicator
+          color={variant === 'outline' ? Colors.primary : Colors.white}
+          size="small"
+        />
       ) : (
         <>
           {icon}
@@ -54,7 +58,8 @@ const AppButton: React.FC<Props> = ({
               styles.text,
               styles[`${variant}Text` as keyof typeof styles],
               textStyle,
-            ]}>
+            ]}
+          >
             {title}
           </Text>
         </>
@@ -70,12 +75,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.xl,
-    borderRadius: Radii.md,
+    borderRadius: Radii.full,
     height: 52,
     gap: Spacing.sm,
   },
   primary: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
   },
   secondary: {
     backgroundColor: Colors.surfaceLight,
@@ -86,14 +91,17 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
   },
   danger: {
-    backgroundColor: Colors.error,
+    backgroundColor: Colors.transparent,
+    borderWidth: 1.5,
+    borderColor: Colors.error,
   },
   disabled: {
-    opacity: 0.5,
+    opacity: 0.45,
   },
   text: {
     fontSize: Fonts.sizes.base,
     fontWeight: Fonts.weights.semiBold,
+    letterSpacing: 0.3,
   },
   primaryText: {
     color: Colors.white,
@@ -105,7 +113,7 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   dangerText: {
-    color: Colors.white,
+    color: Colors.error,
   },
 });
 

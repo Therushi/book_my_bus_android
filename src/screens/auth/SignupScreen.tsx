@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,25 +10,40 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
-import {Colors, Fonts, Spacing, Radii, Shadows} from '@/theme/theme';
+import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
 import FormInput from '@/components/FormInput';
 import AppButton from '@/components/AppButton';
-import {useAuth} from '@/context/AuthContext';
-import {UserRole} from '@/models/types';
+import { useAuth } from '@/context/AuthContext';
+import { UserRole } from '@/models/types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import type {RootStackParamList} from '@/models/types';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/models/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Signup'>;
 
-const ROLES: {key: UserRole; label: string; icon: string; desc: string}[] = [
-  {key: 'passenger', label: 'Passenger', icon: 'account', desc: 'Book tickets'},
-  {key: 'operator', label: 'Operator', icon: 'steering', desc: 'Manage fleet'},
-  {key: 'admin', label: 'Admin', icon: 'shield-crown', desc: 'System control'},
+const ROLES: { key: UserRole; label: string; icon: string; desc: string }[] = [
+  {
+    key: 'passenger',
+    label: 'Passenger',
+    icon: 'account',
+    desc: 'Book tickets',
+  },
+  {
+    key: 'operator',
+    label: 'Operator',
+    icon: 'steering',
+    desc: 'Manage fleet',
+  },
+  {
+    key: 'admin',
+    label: 'Admin',
+    icon: 'shield-crown',
+    desc: 'System control',
+  },
 ];
 
-const SignupScreen: React.FC<Props> = ({navigation}) => {
-  const {signup} = useAuth();
+const SignupScreen: React.FC<Props> = ({ navigation }) => {
+  const { signup } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -61,33 +76,38 @@ const SignupScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <View style={styles.flex}>
-      <StatusBar backgroundColor={Colors.secondary} barStyle="light-content" />
+      <StatusBar backgroundColor={Colors.primary} barStyle="light-content" />
 
       <KeyboardAvoidingView
         style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
         <ScrollView
           style={styles.container}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
-          bounces={false}>
-          
+          bounces={false}
+        >
           {/* Red Banner Header (Inside ScrollView) */}
           <View style={styles.headerBackground}>
             <View style={styles.logoRow}>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.backBtn}
+              >
                 <Icon name="arrow-left" size={24} color={Colors.white} />
               </TouchableOpacity>
               <Text style={styles.headerLogoText}>BookMyBus</Text>
             </View>
             <Text style={styles.headerTitle}>Create Account</Text>
-            <Text style={styles.headerSubtitle}>Join us today for an amazing journey</Text>
+            <Text style={styles.headerSubtitle}>
+              Join us today for an amazing journey
+            </Text>
           </View>
 
           {/* Overlapping Card Container */}
           <View style={styles.content}>
             <View style={styles.card}>
-              
               {/* Role Selector */}
               <Text style={styles.sectionLabel}>I am a...</Text>
               <View style={styles.roleSegmentContainer}>
@@ -106,18 +126,20 @@ const SignupScreen: React.FC<Props> = ({navigation}) => {
                         isSelected && styles.roleSegmentActive,
                       ]}
                       onPress={() => setRole(r.key)}
-                      activeOpacity={0.7}>
+                      activeOpacity={0.7}
+                    >
                       <Icon
                         name={r.icon}
                         size={18}
                         color={isSelected ? Colors.white : Colors.textSecondary}
-                        style={{marginBottom: 2}}
+                        style={{ marginBottom: 2 }}
                       />
                       <Text
                         style={[
                           styles.roleSegmentText,
                           isSelected && styles.roleSegmentTextActive,
-                        ]}>
+                        ]}
+                      >
                         {r.label}
                       </Text>
                     </TouchableOpacity>
@@ -180,7 +202,8 @@ const SignupScreen: React.FC<Props> = ({navigation}) => {
                 <Text style={styles.loginLabel}>Already have an account? </Text>
                 <Text
                   style={styles.loginLink}
-                  onPress={() => navigation.goBack()}>
+                  onPress={() => navigation.goBack()}
+                >
                   Sign In
                 </Text>
               </View>
@@ -193,10 +216,10 @@ const SignupScreen: React.FC<Props> = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  flex: {flex: 1, backgroundColor: Colors.background},
-  container: {flex: 1},
+  flex: { flex: 1, backgroundColor: Colors.background },
+  container: { flex: 1 },
   headerBackground: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     paddingTop: Platform.OS === 'ios' ? 50 : Spacing.xl,
     paddingHorizontal: Spacing.xl,
     paddingBottom: 90, // Extra padding for the overlap
@@ -272,7 +295,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: Radii.md,
   },
   roleSegmentActive: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.primary,
   },
   roleSegmentText: {
     color: Colors.textSecondary,
@@ -283,8 +306,7 @@ const styles = StyleSheet.create({
   roleSegmentTextActive: {
     color: Colors.white,
   },
-  formContainer: {
-  },
+  formContainer: {},
   signupBtn: {
     marginTop: Spacing.md,
   },
@@ -299,7 +321,7 @@ const styles = StyleSheet.create({
     fontSize: Fonts.sizes.md,
   },
   loginLink: {
-    color: Colors.secondary,
+    color: Colors.primary,
     fontSize: Fonts.sizes.md,
     fontWeight: Fonts.weights.semiBold,
   },

@@ -1,11 +1,12 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { View, StyleSheet } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PassengerDashboard from '@/screens/passenger/PassengerDashboard';
 import SearchBuses from '@/screens/passenger/SearchBuses';
 import BookingHistory from '@/screens/passenger/BookingHistory';
 import ProfileScreen from '@/screens/passenger/ProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Colors} from '@/theme/theme';
+import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,35 +17,116 @@ const PassengerNavigator: React.FC = () => {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: Colors.surface,
-          borderTopColor: Colors.border,
-          height: 60,
+          borderTopWidth: 0,
+          height: 64,
           paddingBottom: 8,
+          paddingTop: 6,
+          ...Shadows.large,
         },
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textMuted,
-      }}>
+        tabBarLabelStyle: {
+          fontSize: Fonts.sizes.xs,
+          fontWeight: Fonts.weights.medium,
+        },
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={PassengerDashboard}
-        options={{tabBarIcon: ({color, size}) => <Icon name="home" size={size} color={color} />}}
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                focused && styles.iconContainerActive,
+              ]}
+            >
+              <Icon
+                name={focused ? 'home' : 'home-outline'}
+                size={24}
+                color={color}
+              />
+            </View>
+          ),
+        }}
       />
       <Tab.Screen
         name="SearchBuses"
         component={SearchBuses}
-        options={{tabBarLabel: 'Search', tabBarIcon: ({color, size}) => <Icon name="magnify" size={size} color={color} />}}
+        options={{
+          tabBarLabel: 'Search',
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                focused && styles.iconContainerActive,
+              ]}
+            >
+              <Icon name="magnify" size={24} color={color} />
+            </View>
+          ),
+        }}
       />
       <Tab.Screen
         name="Bookings"
         component={BookingHistory}
-        options={{tabBarIcon: ({color, size}) => <Icon name="ticket-confirmation" size={size} color={color} />}}
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                focused && styles.iconContainerActive,
+              ]}
+            >
+              <Icon
+                name={
+                  focused
+                    ? 'ticket-confirmation'
+                    : 'ticket-confirmation-outline'
+                }
+                size={24}
+                color={color}
+              />
+            </View>
+          ),
+        }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{tabBarIcon: ({color, size}) => <Icon name="account" size={size} color={color} />}}
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                focused && styles.iconContainerActive,
+              ]}
+            >
+              <Icon
+                name={focused ? 'account' : 'account-outline'}
+                size={24}
+                color={color}
+              />
+            </View>
+          ),
+        }}
       />
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 56,
+    height: 30,
+    borderRadius: Radii.full,
+  },
+  iconContainerActive: {
+    backgroundColor: Colors.primary + '12',
+  },
+});
 
 export default PassengerNavigator;

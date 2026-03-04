@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, ViewStyle} from 'react-native';
-import {Colors, Fonts, Spacing, Radii, Shadows} from '@/theme/theme';
+import { View, Text, StyleSheet, ViewStyle } from 'react-native';
+import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
 
 interface Props {
   title: string;
@@ -23,20 +23,38 @@ const DashboardCard: React.FC<Props> = ({
 
   return (
     <View style={[styles.card, isVertical && styles.cardVertical, style]}>
-      <View style={[styles.inner, isVertical ? styles.innerVertical : styles.innerHorizontal]}>
+      {/* Accent strip */}
+      <View style={[styles.accentStrip, { backgroundColor: color }]} />
+      <View
+        style={[
+          styles.inner,
+          isVertical ? styles.innerVertical : styles.innerHorizontal,
+        ]}
+      >
         {icon && (
           <View
             style={[
               styles.iconBg,
               isVertical && styles.iconBgVertical,
-              {backgroundColor: color + '15'},
-            ]}>
+              { backgroundColor: color + '12' },
+            ]}
+          >
             {icon}
           </View>
         )}
         <View style={[styles.content, isVertical && styles.contentVertical]}>
-          <Text style={[styles.value, isVertical && styles.valueVertical, {color}]}>{value}</Text>
-          <Text style={[styles.title, isVertical && styles.titleVertical]}>{title}</Text>
+          <Text
+            style={[
+              styles.value,
+              isVertical && styles.valueVertical,
+              { color },
+            ]}
+          >
+            {value}
+          </Text>
+          <Text style={[styles.title, isVertical && styles.titleVertical]}>
+            {title}
+          </Text>
         </View>
       </View>
     </View>
@@ -48,17 +66,26 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     borderRadius: Radii.xl,
     padding: Spacing.lg,
-    ...Shadows.card,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    minHeight: 110,
+    paddingLeft: Spacing.lg + 3,
+    ...Shadows.medium,
+    minHeight: 100,
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   cardVertical: {
     padding: Spacing.xl,
-    minHeight: 140,
+    paddingLeft: Spacing.xl + 3,
+    minHeight: 130,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  accentStrip: {
+    position: 'absolute',
+    left: 0,
+    top: Spacing.lg,
+    bottom: Spacing.lg,
+    width: 3,
+    borderRadius: 2,
   },
   inner: {
     flex: 1,
@@ -74,8 +101,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   iconBg: {
-    width: 52,
-    height: 52,
+    width: 44,
+    height: 44,
     borderRadius: Radii.full,
     alignItems: 'center',
     justifyContent: 'center',
@@ -84,8 +111,8 @@ const styles = StyleSheet.create({
   iconBgVertical: {
     marginRight: 0,
     marginBottom: Spacing.md,
-    width: 44,
-    height: 44,
+    width: 40,
+    height: 40,
   },
   content: {
     flex: 1,
@@ -107,8 +134,8 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontSize: Fonts.sizes.sm,
     fontWeight: Fonts.weights.medium,
-    marginTop: 4,
-    letterSpacing: 0.5,
+    marginTop: 2,
+    letterSpacing: 0.3,
   },
   titleVertical: {
     marginTop: 2,

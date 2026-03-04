@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   TextInput,
   View,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TextInputProps,
 } from 'react-native';
-import {Colors, Fonts, Spacing, Radii} from '@/theme/theme';
+import { Colors, Fonts, Spacing, Radii } from '@/theme/theme';
 
 interface Props extends TextInputProps {
   label: string;
@@ -14,32 +14,52 @@ interface Props extends TextInputProps {
   icon?: React.ReactNode;
 }
 
-const FormInput: React.FC<Props> = ({label, error, icon, style, onFocus, onBlur, ...props}) => {
+const FormInput: React.FC<Props> = ({
+  label,
+  error,
+  icon,
+  style,
+  onFocus,
+  onBlur,
+  ...props
+}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.label, isFocused && styles.labelFocused]}>{label}</Text>
-      <View style={[
-        styles.inputWrapper, 
-        isFocused && styles.inputFocused,
-        error ? styles.inputError : null
-      ]}>
-        {icon && <View style={styles.iconWrapper}>
-          {React.isValidElement(icon) 
-            ? React.cloneElement(icon as any, { 
-                color: error ? Colors.error : (isFocused ? Colors.primary : Colors.textMuted) 
-              }) 
-            : icon}
-        </View>}
+      {label ? (
+        <Text style={[styles.label, isFocused && styles.labelFocused]}>
+          {label}
+        </Text>
+      ) : null}
+      <View
+        style={[
+          styles.inputWrapper,
+          isFocused && styles.inputFocused,
+          error ? styles.inputError : null,
+        ]}
+      >
+        {icon && (
+          <View style={styles.iconWrapper}>
+            {React.isValidElement(icon)
+              ? React.cloneElement(icon as any, {
+                  color: error
+                    ? Colors.error
+                    : isFocused
+                    ? Colors.primary
+                    : Colors.textMuted,
+                })
+              : icon}
+          </View>
+        )}
         <TextInput
           style={[styles.input, icon ? styles.inputWithIcon : null, style]}
           placeholderTextColor={Colors.textMuted}
-          onFocus={(e) => {
+          onFocus={e => {
             setIsFocused(true);
             onFocus?.(e);
           }}
-          onBlur={(e) => {
+          onBlur={e => {
             setIsFocused(false);
             onBlur?.(e);
           }}
@@ -69,13 +89,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.surface,
-    borderRadius: Radii.md,
+    borderRadius: Radii.lg,
     borderWidth: 1.5,
     borderColor: Colors.border,
   },
   inputFocused: {
     borderColor: Colors.primary,
-    backgroundColor: Colors.surfaceLight,
+    borderWidth: 2,
+    backgroundColor: Colors.primary + '06',
   },
   inputError: {
     borderColor: Colors.error,
@@ -89,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: Fonts.sizes.base,
     paddingHorizontal: Spacing.base,
     paddingVertical: Spacing.md,
-    height: 50,
+    height: 54,
   },
   inputWithIcon: {
     paddingLeft: Spacing.sm,

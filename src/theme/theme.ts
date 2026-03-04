@@ -1,10 +1,11 @@
 export const Colors = {
   // Google Core Colors
-  primary: '#4285F4', // Google Blue
-  primaryDark: '#3367D6', // Darker Blue
-  primaryLight: '#8AB4F8', // Lighter Blue
-  secondary: '#EA4335', // Google Red
-  secondaryDark: '#C5221F',
+  primary: '#EA4335', // Google Red
+  primaryDark: '#C5221F', // Darker Red
+  primaryLight: '#F28B82', // Lighter Red
+  primarySurface: '#FDE7E5', // Very light red tint for surfaces
+  secondary: '#4285F4', // Google Blue
+  secondaryDark: '#3367D6',
   accent: '#FBBC05', // Google Yellow
   accentDark: '#F29900',
 
@@ -12,12 +13,14 @@ export const Colors = {
   background: '#F8F9FA', // Google Grey 50
   surface: '#FFFFFF', // White
   surfaceLight: '#F1F3F4', // Google Grey 100
+  surfaceElevated: '#FFFFFF', // Cards on top of background
   card: '#FFFFFF',
 
   // Text
   textPrimary: '#202124', // Google Dark Grey
   textSecondary: '#5F6368', // Google Grey 700
   textMuted: '#9AA0A6', // Google Grey 500
+  textOnPrimary: '#FFFFFF',
 
   // Status
   success: '#34A853', // Google Green
@@ -33,10 +36,17 @@ export const Colors = {
 
   // Misc
   border: '#DADCE0', // Google Grey 300
+  borderLight: '#E8EAED', // Google Grey 200
   overlay: 'rgba(0,0,0,0.5)',
   white: '#FFFFFF',
   black: '#000000',
   transparent: 'transparent',
+
+  // Promo card backgrounds
+  promoDarkRed: '#8B1A2B',
+  promoLightPink: '#FFF0F0',
+  promoLightBlue: '#EFF6FF',
+  promoLightGreen: '#ECFDF5',
 };
 
 export const Fonts = {
@@ -83,18 +93,39 @@ export const Radii = {
 };
 
 export const Shadows = {
+  small: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  medium: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 4,
+  },
   card: {
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-    elevation: 6,
+    elevation: 5,
+  },
+  large: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 8,
   },
   button: {
-    shadowColor: '#6C63FF',
-    shadowOffset: {width: 0, height: 4},
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
+    shadowColor: '#EA4335',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
     elevation: 4,
   },
 };
