@@ -171,7 +171,16 @@ const PassengerDashboard: React.FC<{ navigation: any }> = ({ navigation }) => {
               contentContainerStyle={styles.promoScroll}
             >
               {PROMO_CARDS.map(promo => (
-                <PromoCard key={promo.title} {...promo} />
+                <PromoCard
+                  key={promo.title}
+                  {...promo}
+                  onPress={() =>
+                    navigation.navigate('PromoPoliciesScreen', {
+                      title: promo.title,
+                      type: promo.title,
+                    })
+                  }
+                />
               ))}
             </ScrollView>
           </View>

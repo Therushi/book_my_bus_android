@@ -134,4 +134,5 @@ export type RootStackParamList = {
   ReportsScreen: undefined;
   ProfileScreen: undefined;
   BookingHistory: undefined;
+  PromoPoliciesScreen: { title: string; type: string };
 };
