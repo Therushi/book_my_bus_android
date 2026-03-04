@@ -8,8 +8,9 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
-import {Colors, Fonts, Spacing, Radii} from '@/theme/theme';
+import {Colors, Fonts, Spacing, Radii, Shadows} from '@/theme/theme';
 import FormInput from '@/components/FormInput';
 import AppButton from '@/components/AppButton';
 import {useAuth} from '@/context/AuthContext';
@@ -21,9 +22,9 @@ import type {RootStackParamList} from '@/models/types';
 type Props = NativeStackScreenProps<RootStackParamList, 'Signup'>;
 
 const ROLES: {key: UserRole; label: string; icon: string; desc: string}[] = [
-  {key: 'passenger', label: 'Passenger', icon: 'account', desc: 'Book bus tickets'},
-  {key: 'operator', label: 'Bus Operator', icon: 'steering', desc: 'Manage your fleet'},
-  {key: 'admin', label: 'Administrator', icon: 'shield-crown', desc: 'Full system control'},
+  {key: 'passenger', label: 'Passenger', icon: 'account', desc: 'Book tickets'},
+  {key: 'operator', label: 'Operator', icon: 'steering', desc: 'Manage fleet'},
+  {key: 'admin', label: 'Admin', icon: 'shield-crown', desc: 'System control'},
 ];
 
 const SignupScreen: React.FC<Props> = ({navigation}) => {
@@ -59,121 +60,184 @@ const SignupScreen: React.FC<Props> = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.flex}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.content}
-        keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>Create Account</Text>
-        <Text style={styles.subtitle}>Join BookMyBus today</Text>
+    <View style={styles.flex}>
+      <StatusBar backgroundColor={Colors.secondary} barStyle="light-content" />
 
-        {/* Role Selector */}
-        <Text style={styles.sectionLabel}>I am a...</Text>
-        <View style={styles.roleRow}>
-          {ROLES.map(r => (
-            <TouchableOpacity
-              key={r.key}
-              style={[styles.roleCard, role === r.key && styles.roleCardActive]}
-              onPress={() => setRole(r.key)}
-              activeOpacity={0.7}>
-              <Icon
-                name={r.icon}
-                size={24}
-                color={role === r.key ? Colors.primary : Colors.textMuted}
-              />
-              <Text
-                style={[
-                  styles.roleLabel,
-                  role === r.key && styles.roleLabelActive,
-                ]}>
-                {r.label}
-              </Text>
-              <Text style={styles.roleDesc}>{r.desc}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          bounces={false}>
+          
+          {/* Red Banner Header (Inside ScrollView) */}
+          <View style={styles.headerBackground}>
+            <View style={styles.logoRow}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+                <Icon name="arrow-left" size={24} color={Colors.white} />
+              </TouchableOpacity>
+              <Text style={styles.headerLogoText}>BookMyBus</Text>
+            </View>
+            <Text style={styles.headerTitle}>Create Account</Text>
+            <Text style={styles.headerSubtitle}>Join us today for an amazing journey</Text>
+          </View>
 
-        {/* Form */}
-        <FormInput
-          label="Full Name"
-          placeholder="Enter your name"
-          value={name}
-          onChangeText={setName}
-          icon={<Icon name="account-outline" size={20} color={Colors.textMuted} />}
-        />
-        <FormInput
-          label="Email"
-          placeholder="Enter your email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          icon={<Icon name="email-outline" size={20} color={Colors.textMuted} />}
-        />
-        <FormInput
-          label="Phone (optional)"
-          placeholder="+91-XXXXX XXXXX"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-          icon={<Icon name="phone-outline" size={20} color={Colors.textMuted} />}
-        />
-        <FormInput
-          label="Password"
-          placeholder="Min 6 characters"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          icon={<Icon name="lock-outline" size={20} color={Colors.textMuted} />}
-        />
-        <FormInput
-          label="Confirm Password"
-          placeholder="Re-enter password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-          icon={<Icon name="lock-check-outline" size={20} color={Colors.textMuted} />}
-        />
+          {/* Overlapping Card Container */}
+          <View style={styles.content}>
+            <View style={styles.card}>
+              
+              {/* Role Selector */}
+              <Text style={styles.sectionLabel}>I am a...</Text>
+              <View style={styles.roleSegmentContainer}>
+                {ROLES.map((r, index) => {
+                  const isSelected = role === r.key;
+                  const isFirst = index === 0;
+                  const isLast = index === ROLES.length - 1;
 
-        <AppButton
-          title="Create Account"
-          onPress={handleSignup}
-          loading={loading}
-          style={styles.signupBtn}
-        />
+                  return (
+                    <TouchableOpacity
+                      key={r.key}
+                      style={[
+                        styles.roleSegment,
+                        isFirst && styles.roleSegmentFirst,
+                        isLast && styles.roleSegmentLast,
+                        isSelected && styles.roleSegmentActive,
+                      ]}
+                      onPress={() => setRole(r.key)}
+                      activeOpacity={0.7}>
+                      <Icon
+                        name={r.icon}
+                        size={18}
+                        color={isSelected ? Colors.white : Colors.textSecondary}
+                        style={{marginBottom: 2}}
+                      />
+                      <Text
+                        style={[
+                          styles.roleSegmentText,
+                          isSelected && styles.roleSegmentTextActive,
+                        ]}>
+                        {r.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
 
-        <View style={styles.loginRow}>
-          <Text style={styles.loginLabel}>Already have an account? </Text>
-          <Text
-            style={styles.loginLink}
-            onPress={() => navigation.goBack()}>
-            Sign In
-          </Text>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+              {/* Form */}
+              <View style={styles.formContainer}>
+                <FormInput
+                  label="Full Name"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChangeText={setName}
+                  icon={<Icon name="account-outline" size={20} />}
+                />
+                <FormInput
+                  label="Email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  icon={<Icon name="email-outline" size={20} />}
+                />
+                <FormInput
+                  label="Phone (optional)"
+                  placeholder="+91-XXXXX XXXXX"
+                  value={phone}
+                  onChangeText={setPhone}
+                  keyboardType="phone-pad"
+                  icon={<Icon name="phone-outline" size={20} />}
+                />
+                <FormInput
+                  label="Password"
+                  placeholder="Min 6 characters"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  icon={<Icon name="lock-outline" size={20} />}
+                />
+                <FormInput
+                  label="Confirm Password"
+                  placeholder="Re-enter password"
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry
+                  icon={<Icon name="lock-check-outline" size={20} />}
+                />
+
+                <AppButton
+                  title="Create Account"
+                  onPress={handleSignup}
+                  loading={loading}
+                  style={styles.signupBtn}
+                />
+              </View>
+
+              <View style={styles.loginRow}>
+                <Text style={styles.loginLabel}>Already have an account? </Text>
+                <Text
+                  style={styles.loginLink}
+                  onPress={() => navigation.goBack()}>
+                  Sign In
+                </Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   flex: {flex: 1, backgroundColor: Colors.background},
   container: {flex: 1},
-  content: {
-    padding: Spacing.xl,
-    paddingTop: Spacing.xxxl,
+  headerBackground: {
+    backgroundColor: Colors.secondary,
+    paddingTop: Platform.OS === 'ios' ? 50 : Spacing.xl,
+    paddingHorizontal: Spacing.xl,
+    paddingBottom: 90, // Extra padding for the overlap
+    borderBottomLeftRadius: Radii.xl,
+    borderBottomRightRadius: Radii.xl,
   },
-  title: {
-    color: Colors.textPrimary,
-    fontSize: Fonts.sizes.xxxl,
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.md,
+  },
+  backBtn: {
+    marginRight: Spacing.md,
+    padding: Spacing.xs,
+  },
+  headerLogoText: {
+    color: Colors.white,
+    fontSize: Fonts.sizes.lg,
+    fontWeight: Fonts.weights.bold,
+  },
+  headerTitle: {
+    color: Colors.white,
+    fontSize: Fonts.sizes.xxl,
     fontWeight: Fonts.weights.extraBold,
   },
-  subtitle: {
-    color: Colors.textSecondary,
-    fontSize: Fonts.sizes.base,
+  headerSubtitle: {
+    color: Colors.white,
+    opacity: 0.9,
+    fontSize: Fonts.sizes.sm,
     marginTop: Spacing.xs,
-    marginBottom: Spacing.xl,
+  },
+  content: {
+    paddingHorizontal: Spacing.base,
+    paddingBottom: Spacing.xxxl,
+  },
+  card: {
+    backgroundColor: Colors.surface,
+    borderRadius: Radii.xl,
+    padding: Spacing.xl,
+    marginTop: -40, // Keeps it comfortably below the text
+    ...Shadows.card,
   },
   sectionLabel: {
     color: Colors.textSecondary,
@@ -181,38 +245,45 @@ const styles = StyleSheet.create({
     fontWeight: Fonts.weights.medium,
     marginBottom: Spacing.sm,
   },
-  roleRow: {
+  roleSegmentContainer: {
     flexDirection: 'row',
-    gap: Spacing.sm,
-    marginBottom: Spacing.xl,
-  },
-  roleCard: {
-    flex: 1,
-    backgroundColor: Colors.surfaceLight,
-    borderRadius: Radii.md,
-    padding: Spacing.md,
-    alignItems: 'center',
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: Colors.border,
+    borderRadius: Radii.md,
+    marginBottom: Spacing.xl,
+    overflow: 'hidden',
   },
-  roleCardActive: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primary + '10',
+  roleSegment: {
+    flex: 1,
+    paddingVertical: Spacing.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.surfaceLight,
+    borderRightWidth: 1,
+    borderRightColor: Colors.border,
   },
-  roleLabel: {
+  roleSegmentFirst: {
+    borderTopLeftRadius: Radii.md,
+    borderBottomLeftRadius: Radii.md,
+  },
+  roleSegmentLast: {
+    borderRightWidth: 0,
+    borderTopRightRadius: Radii.md,
+    borderBottomRightRadius: Radii.md,
+  },
+  roleSegmentActive: {
+    backgroundColor: Colors.primary,
+  },
+  roleSegmentText: {
     color: Colors.textSecondary,
-    fontSize: Fonts.sizes.sm,
+    fontSize: 11,
     fontWeight: Fonts.weights.semiBold,
-    marginTop: Spacing.xs,
-  },
-  roleLabelActive: {
-    color: Colors.primary,
-  },
-  roleDesc: {
-    color: Colors.textMuted,
-    fontSize: Fonts.sizes.xs,
-    textAlign: 'center',
     marginTop: 2,
+  },
+  roleSegmentTextActive: {
+    color: Colors.white,
+  },
+  formContainer: {
   },
   signupBtn: {
     marginTop: Spacing.md,
@@ -221,7 +292,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: Spacing.xl,
-    marginBottom: Spacing.xxl,
+    marginBottom: Spacing.sm,
   },
   loginLabel: {
     color: Colors.textSecondary,

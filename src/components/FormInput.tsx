@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   TextInput,
   View,
@@ -14,15 +14,35 @@ interface Props extends TextInputProps {
   icon?: React.ReactNode;
 }
 
-const FormInput: React.FC<Props> = ({label, error, icon, style, ...props}) => {
+const FormInput: React.FC<Props> = ({label, error, icon, style, onFocus, onBlur, ...props}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={[styles.inputWrapper, error ? styles.inputError : null]}>
-        {icon && <View style={styles.iconWrapper}>{icon}</View>}
+      <Text style={[styles.label, isFocused && styles.labelFocused]}>{label}</Text>
+      <View style={[
+        styles.inputWrapper, 
+        isFocused && styles.inputFocused,
+        error ? styles.inputError : null
+      ]}>
+        {icon && <View style={styles.iconWrapper}>
+          {React.isValidElement(icon) 
+            ? React.cloneElement(icon as any, { 
+                color: error ? Colors.error : (isFocused ? Colors.primary : Colors.textMuted) 
+              }) 
+            : icon}
+        </View>}
         <TextInput
           style={[styles.input, icon ? styles.inputWithIcon : null, style]}
           placeholderTextColor={Colors.textMuted}
+          onFocus={(e) => {
+            setIsFocused(true);
+            onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            setIsFocused(false);
+            onBlur?.(e);
+          }}
           {...props}
         />
       </View>
@@ -42,13 +62,20 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.xs,
     marginLeft: Spacing.xs,
   },
+  labelFocused: {
+    color: Colors.primary,
+  },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.surfaceLight,
+    backgroundColor: Colors.surface,
     borderRadius: Radii.md,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: Colors.border,
+  },
+  inputFocused: {
+    borderColor: Colors.primary,
+    backgroundColor: Colors.surfaceLight,
   },
   inputError: {
     borderColor: Colors.error,
