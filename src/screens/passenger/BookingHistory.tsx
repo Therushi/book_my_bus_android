@@ -69,14 +69,14 @@ const BookingHistory: React.FC<{ navigation: any }> = ({ navigation }) => {
     ]);
   };
 
-  const handleRebook = (bk: Booking) => {
-    if (bk.source && bk.destination) {
-      navigation.navigate('TripResults', {
-        source: bk.source,
-        destination: bk.destination,
-      });
-    }
-  };
+  // const handleRebook = (bk: Booking) => {
+  //   if (bk.source && bk.destination) {
+  //     navigation.navigate('TripResults', {
+  //       source: bk.source,
+  //       destination: bk.destination,
+  //     });
+  //   }
+  // };
 
   const filteredBookings = bookings.filter(b => {
     if (selectedSegment === 0) return true;

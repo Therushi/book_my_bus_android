@@ -6,7 +6,7 @@ import SearchBuses from '@/screens/passenger/SearchBuses';
 import BookingHistory from '@/screens/passenger/BookingHistory';
 import ProfileScreen from '@/screens/passenger/ProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
+import { Colors, Fonts, Radii, Shadows } from '@/theme/theme';
 
 const Tab = createBottomTabNavigator();
 
