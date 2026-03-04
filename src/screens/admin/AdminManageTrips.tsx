@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import { Colors, Fonts, Spacing, Radii, Shadows } from '@/theme/theme';
 import AppButton from '@/components/AppButton';
@@ -121,14 +123,16 @@ const AdminManageTrips: React.FC = () => {
   const selectedBus = buses.find(b => b.id === form.bus_id);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={styles.flex}>
+      <StatusBar backgroundColor={Colors.primary} barStyle="light-content" />
+      <View style={styles.headerBackground}>
         <Text style={styles.title}>Manage Trips</Text>
         <AppButton
           title="Add Trip"
           onPress={openAdd}
-          icon={<Icon name="plus" size={18} color={Colors.white} />}
+          icon={<Icon name="plus" size={18} color={Colors.primary} />}
           style={styles.addBtn}
+          textStyle={{ color: Colors.primary }}
         />
       </View>
 
@@ -136,6 +140,7 @@ const AdminManageTrips: React.FC = () => {
         data={trips}
         keyExtractor={i => i.id}
         contentContainerStyle={styles.list}
+        style={styles.overlapContent}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <View style={styles.cardRow}>
@@ -186,9 +191,15 @@ const AdminManageTrips: React.FC = () => {
           </View>
         )}
         ListEmptyComponent={
-          <Text style={styles.empty}>
-            No trips yet. Tap "Add Trip" to create one.
-          </Text>
+          <View style={styles.emptyState}>
+            <View style={styles.emptyIconBg}>
+              <Icon name="road-variant" size={48} color={Colors.primary} />
+            </View>
+            <Text style={styles.emptyTitle}>No trips yet</Text>
+            <Text style={styles.emptyDesc}>
+              Tap "Add Trip" above to create one.
+            </Text>
+          </View>
         }
       />
 
@@ -332,24 +343,32 @@ const AdminManageTrips: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
-  header: {
+  flex: { flex: 1, backgroundColor: Colors.background },
+  headerBackground: {
+    backgroundColor: Colors.primary,
+    paddingTop: Platform.OS === 'ios' ? 56 : Spacing.xxl + 16,
+    paddingHorizontal: Spacing.xl,
+    paddingBottom: 80,
+    borderBottomLeftRadius: Radii.xxl,
+    borderBottomRightRadius: Radii.xxl,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: Spacing.xl,
-    paddingBottom: 0,
+    alignItems: 'flex-start',
   },
   title: {
-    color: Colors.primaryDark,
+    color: Colors.white,
     fontSize: Fonts.sizes.xxl,
-    fontWeight: Fonts.weights.extraBold,
-    letterSpacing: -0.5,
+    fontWeight: Fonts.weights.bold,
+    letterSpacing: -0.3,
   },
   addBtn: {
     paddingHorizontal: Spacing.base,
     height: 42,
-    borderRadius: Radii.lg,
+    borderRadius: Radii.full,
+    backgroundColor: Colors.white,
+  },
+  overlapContent: {
+    marginTop: -44,
   },
   list: { padding: Spacing.xl, paddingBottom: Spacing.huge },
   card: {
@@ -419,12 +438,29 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surfaceLight,
     borderRadius: Radii.full,
   },
-  empty: {
-    color: Colors.textMuted,
-    textAlign: 'center',
+  emptyState: {
+    alignItems: 'center',
     marginTop: Spacing.xxl,
+  },
+  emptyIconBg: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: Colors.primary + '10',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyTitle: {
+    color: Colors.textPrimary,
+    fontSize: Fonts.sizes.lg,
+    fontWeight: Fonts.weights.semiBold,
+    marginTop: Spacing.base,
+  },
+  emptyDesc: {
+    color: Colors.textMuted,
     fontSize: Fonts.sizes.md,
-    fontStyle: 'italic',
+    marginTop: Spacing.xs,
+    textAlign: 'center',
   },
   // Modal
   modalOverlay: {
